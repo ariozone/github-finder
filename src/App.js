@@ -1,9 +1,10 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import NavBar from "./components/layout/NavBar"
 import Users from "./components/users/Users"
 import Search from "./components/users/Search"
 import Alert from "./components/layout/alert"
 import axios from "axios"
+import { BrowserRouter, Switch, Route } from "react-router-dom"
 import "./App.css"
 const usersEndPoint = "https://api.github.com/users"
 const credentials = `client_id=${
@@ -45,19 +46,31 @@ class App extends Component {
   render() {
     const { loading, users, alert } = this.state
     return (
-      <div className='App'>
-        <NavBar />
-        <div className='container'>
-          <Alert alert={alert} />
-          <Search
-            onSearch={this.onSearch}
-            onClear={this.handleClear}
-            showClear={users.length > 0 ? true : false}
-            setAlert={this.setAlert}
-          />
-          <Users users={users} loading={loading} />
+      <BrowserRouter>
+        <div className='App'>
+          <NavBar />
+          <div className='container'>
+            <Alert alert={alert} />
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={props => (
+                  <Fragment>
+                    <Search
+                      onSearch={this.onSearch}
+                      onClear={this.handleClear}
+                      showClear={users.length > 0 ? true : false}
+                      setAlert={this.setAlert}
+                    />
+                    <Users users={users} loading={loading} />
+                  </Fragment>
+                )}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     )
   }
 }

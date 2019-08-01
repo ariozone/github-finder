@@ -21,7 +21,7 @@ class Search extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     if (this.state.searchQuery === "") {
-      this.props.setAlert("Please enter a search keyword!", "light")
+      this.props.setAlert("Please enter a search keyword!", "danger")
     } else {
       this.props.onSearch(this.state.searchQuery)
       this.setState({ searchQuery: "" })
