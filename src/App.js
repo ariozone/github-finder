@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import NavBar from "./components/layout/NavBar"
 import Users from "./components/users/Users"
+import Search from "./components/users/Search"
 import axios from "axios"
 import "./App.css"
 const url = `https://api.github.com/users?client_id=${
@@ -24,6 +25,7 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <div className='container'>
+          <Search />
           <Users users={users} loading={loading} />
         </div>
       </div>
