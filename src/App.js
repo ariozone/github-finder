@@ -17,7 +17,8 @@ class App extends Component {
   state = {
     users: [],
     loading: false,
-    alert: null
+    alert: null,
+    user: {}
   }
 
   async componentDidMount() {
@@ -42,6 +43,14 @@ class App extends Component {
   setAlert = (message, type) => {
     this.setState({ alert: { message, type } })
     setTimeout(() => this.setState({ alert: null }), 3000)
+  }
+
+  getUser = async username => {
+    this.setState({ loading: true })
+    const { data: user } = await axios.get(
+      usersEndPoint + "/" + username + "?" + credentials
+    )
+    this.setState({ user, loading: false })
   }
 
   render() {
