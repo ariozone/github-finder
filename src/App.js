@@ -26,7 +26,10 @@ class App extends Component {
       searchEndPoint + searchQuery + "&" + credentials
     )
 
-    this.setState({ users: data.items })
+    this.setState({ users: data.items, loading: false })
+  }
+  handleClear = () => {
+    this.setState({ users: [], loading: false })
   }
   render() {
     const { loading, users } = this.state
@@ -34,7 +37,11 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <div className='container'>
-          <Search onSearch={this.onSearch} />
+          <Search
+            onSearch={this.onSearch}
+            onClear={this.handleClear}
+            showClear={users.length > 0 ? true : false}
+          />
           <Users users={users} loading={loading} />
         </div>
       </div>

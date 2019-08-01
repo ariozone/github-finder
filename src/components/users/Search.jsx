@@ -5,7 +5,11 @@ class Search extends React.Component {
   state = {
     searchQuery: ""
   }
-  static propTypes = { onSearch: PropTypes.func.isRequired }
+  static propTypes = {
+    onSearch: PropTypes.func.isRequired,
+    onClear: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
+  }
   handleChange = e => {
     const searchQuery = e.target.value
     this.setState({ searchQuery })
@@ -14,6 +18,9 @@ class Search extends React.Component {
     e.preventDefault()
     this.props.onSearch(this.state.searchQuery)
     this.setState({ searchQuery: "" })
+  }
+  handleClick = () => {
+    this.props.onClear()
   }
   render() {
     return (
@@ -33,6 +40,11 @@ class Search extends React.Component {
             className='btn btn-dark btn-block'
           />
         </form>
+        {this.props.showClear && (
+          <button className='btn light btn-block' onClick={this.handleClick}>
+            Clear
+          </button>
+        )}
       </div>
     )
   }
