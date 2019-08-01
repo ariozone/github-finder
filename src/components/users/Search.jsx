@@ -5,24 +5,33 @@ class Search extends React.Component {
   state = {
     searchQuery: ""
   }
+
   static propTypes = {
     onSearch: PropTypes.func.isRequired,
     onClear: PropTypes.func.isRequired,
-    showClear: PropTypes.bool.isRequired
+    showClear: PropTypes.bool.isRequired,
+    setAlert: PropTypes.func.isRequired
   }
+
   handleChange = e => {
     const searchQuery = e.target.value
     this.setState({ searchQuery })
   }
+
   handleSubmit = e => {
     e.preventDefault()
-
-    this.props.onSearch(this.state.searchQuery)
-    this.setState({ searchQuery: "" })
+    if (this.state.searchQuery === "") {
+      this.props.setAlert("Please enter a search keyword!", "light")
+    } else {
+      this.props.onSearch(this.state.searchQuery)
+      this.setState({ searchQuery: "" })
+    }
   }
+
   handleClick = () => {
     this.props.onClear()
   }
+
   render() {
     return (
       <div>

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import NavBar from "./components/layout/NavBar"
 import Users from "./components/users/Users"
 import Search from "./components/users/Search"
+import Alert from "./components/layout/alert"
 import axios from "axios"
 import "./App.css"
 const usersEndPoint = "https://api.github.com/users"
@@ -13,13 +14,16 @@ const searchEndPoint = "https://api.github.com/search/users?q="
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
+
   async componentDidMount() {
     this.setState({ loading: true })
     const { data: users } = await axios.get(usersEndPoint + "?" + credentials)
     this.setState({ users, loading: false })
   }
+
   onSearch = async searchQuery => {
     this.setState({ loading: true })
     const { data } = await axios.get(
@@ -28,19 +32,28 @@ class App extends Component {
 
     this.setState({ users: data.items, loading: false })
   }
+
   handleClear = () => {
     this.setState({ users: [], loading: false })
   }
+
+  setAlert = (message, type) => {
+    this.setState({ alert: { message, type } })
+    setTimeout(() => this.setState({ alert: null }), 3000)
+  }
+
   render() {
-    const { loading, users } = this.state
+    const { loading, users, alert } = this.state
     return (
       <div className='App'>
         <NavBar />
         <div className='container'>
+          <Alert alert={alert} />
           <Search
             onSearch={this.onSearch}
             onClear={this.handleClear}
             showClear={users.length > 0 ? true : false}
+            setAlert={this.setAlert}
           />
           <Users users={users} loading={loading} />
         </div>
