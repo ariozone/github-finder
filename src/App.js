@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react"
 import NavBar from "./components/layout/NavBar"
 import Users from "./components/users/Users"
 import Search from "./components/users/Search"
+import User from "./components/users/User"
 import Alert from "./components/layout/Alert"
 import About from "./components/pages/About"
 import axios from "axios"
@@ -54,7 +55,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, users, alert } = this.state
+    const { loading, users, alert, user } = this.state
     return (
       <BrowserRouter>
         <div className='App'>
@@ -78,6 +79,18 @@ class App extends Component {
                 )}
               />
               <Route exact path='/about' component={About} />
+              <Route
+                exact
+                path='/users/:login'
+                render={props => (
+                  <User
+                    {...props}
+                    getUser={this.getUser}
+                    user={user}
+                    loading={loading}
+                  />
+                )}
+              />
             </Switch>
           </div>
         </div>
