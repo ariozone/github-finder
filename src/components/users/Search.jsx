@@ -1,16 +1,18 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 class Search extends React.Component {
   state = {
     searchQuery: ""
   }
+  static propTypes = { onSearch: PropTypes.func.isRequired }
   handleChange = e => {
     const searchQuery = e.target.value
     this.setState({ searchQuery })
   }
   handleSubmit = e => {
     e.preventDefault()
-    console.log(this.state.searchQuery)
+    this.props.onSearch(this.state.searchQuery)
     this.setState({ searchQuery: "" })
   }
   render() {
@@ -35,4 +37,5 @@ class Search extends React.Component {
     )
   }
 }
+
 export default Search

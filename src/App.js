@@ -4,9 +4,11 @@ import Users from "./components/users/Users"
 import Search from "./components/users/Search"
 import axios from "axios"
 import "./App.css"
-const url = `https://api.github.com/users?client_id=${
+const usersEndPoint = "https://api.github.com/users"
+const credentials = `client_id=${
   process.env.REACT_APP_GITHUB_CLIENT_ID
 }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+const searchEndPoint = "https://api.github.com/search/users?q="
 
 class App extends Component {
   state = {
@@ -14,10 +16,17 @@ class App extends Component {
     loading: false
   }
   async componentDidMount() {
-    console.log(process.env.REACT_APP_GITHUB_CLIENT_ID)
     this.setState({ loading: true })
-    const { data: users } = await axios.get(url)
+    const { data: users } = await axios.get(usersEndPoint + "?" + credentials)
     this.setState({ users, loading: false })
+  }
+  onSearch = async searchQuery => {
+    this.setState({ loading: true })
+    const { data } = await axios.get(
+      searchEndPoint + searchQuery + "&" + credentials
+    )
+
+    this.setState({ users: data.items })
   }
   render() {
     const { loading, users } = this.state
@@ -25,7 +34,7 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <div className='container'>
-          <Search />
+          <Search onSearch={this.onSearch} />
           <Users users={users} loading={loading} />
         </div>
       </div>
