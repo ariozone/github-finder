@@ -62,10 +62,9 @@ class App extends Component {
       usersEndPoint + "/" + username + reposApi + "?" + credentials
     )
     this.setState({ repos, loading: false })
-    console.log(repos)
   }
   render() {
-    const { loading, users, alert, user } = this.state
+    const { loading, users, alert, user, repos } = this.state
     return (
       <BrowserRouter>
         <div className='App'>
@@ -95,7 +94,9 @@ class App extends Component {
                 render={props => (
                   <User
                     getUser={this.getUser}
+                    getRepos={this.getRepos}
                     user={user}
+                    repos={repos}
                     loading={loading}
                     {...props}
                   />
