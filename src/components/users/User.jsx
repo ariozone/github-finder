@@ -36,7 +36,7 @@ class User extends Component {
         <Link to='/' className='btn btn-light'>
           Back to Search
         </Link>
-        Hireable:{" "}
+        Hireable: {"  "}
         {hireable ? (
           <i className='fas fa-check text-success' />
         ) : (
@@ -89,6 +89,12 @@ class User extends Component {
               </li>
             </ul>
           </div>
+        </div>
+        <div className='card text-center'>
+          <div className='badge badge-primary'>Followers: {followers}</div>
+          <div className='badge badge-success'>Following: {following}</div>
+          <div className='badge badge-danger'>Public Repos: {public_repos}</div>
+          <div className='badge badge-dark'>Public Gists: {public_gists}</div>
         </div>
       </Fragment>
     )
