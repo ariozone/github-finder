@@ -13,13 +13,15 @@ const credentials = `client_id=${
   process.env.REACT_APP_GITHUB_CLIENT_ID
 }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
 const searchEndPoint = "https://api.github.com/search/users?q="
+const reposApi = "/repos?per_page=5&sort=created:asc"
 
 class App extends Component {
   state = {
     users: [],
     loading: false,
     alert: null,
-    user: {}
+    user: {},
+    repos: []
   }
 
   async componentDidMount() {
@@ -54,6 +56,14 @@ class App extends Component {
     this.setState({ user, loading: false })
   }
 
+  getRepos = async username => {
+    this.setState({ loading: true })
+    const { data: repos } = await axios.get(
+      usersEndPoint + "/" + username + reposApi + "?" + credentials
+    )
+    this.setState({ repos, loading: false })
+    console.log(repos)
+  }
   render() {
     const { loading, users, alert, user } = this.state
     return (
