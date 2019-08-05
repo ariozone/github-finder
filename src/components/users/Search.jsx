@@ -1,19 +1,20 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 
-const Search = ({ onClear, setAlert, onSearch }) => {
+const Search = ({ onClear, setAlert, onSearch, showClear }) => {
+  const [searchQuery, setSearchQuery] = useState("")
+
   const handleChange = e => {
-    const searchQuery = e.target.value
-    this.setState({ searchQuery })
+    setSearchQuery(e.target.value)
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-    if (this.state.searchQuery === "") {
+    if (searchQuery === "") {
       setAlert("Please enter a search keyword!", "danger")
     } else {
-      onSearch(this.state.searchQuery)
-      this.setState({ searchQuery: "" })
+      onSearch(searchQuery)
+      setSearchQuery("")
     }
   }
 
@@ -27,7 +28,7 @@ const Search = ({ onClear, setAlert, onSearch }) => {
           type='text'
           name='searchQuery'
           placeholder='Search...'
-          value={this.state.searchQuery}
+          value={searchQuery}
           onChange={handleChange}
         />
         <input
@@ -37,7 +38,7 @@ const Search = ({ onClear, setAlert, onSearch }) => {
           className='btn btn-dark btn-block'
         />
       </form>
-      {this.props.showClear && (
+      {showClear && (
         <button className='btn light btn-block' onClick={handleClick}>
           Clear
         </button>
