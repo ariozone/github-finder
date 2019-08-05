@@ -1,23 +1,16 @@
-import React, { Component, Fragment } from "react"
+import React, {  Fragment } from "react"
 import Spinner from "../layout/Spinner"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import Repos from "../repos/Repos"
 
-class User extends Component {
+const User = ({getUser, getRepos, match, user, loading, repos}) => {
   componentDidMount() {
-    this.props.getUser(this.props.match.params.login)
-    this.props.getRepos(this.props.match.params.login)
+    getUser(match.params.login)
+    getRepos(match.params.login)
   }
 
-  static propTypes = {
-    getUser: PropTypes.func.isRequired,
-    loading: PropTypes.bool,
-    user: PropTypes.object.isRequired,
-    getRepos: PropTypes.func.isRequired,
-    repos: PropTypes.array.isRequired
-  }
-  render() {
+
     const {
       name,
       avatar_url,
@@ -32,20 +25,20 @@ class User extends Component {
       public_repos,
       public_gists,
       hireable
-    } = this.props.user
-    return this.props.loading ? (
+    } = user
+    return loading ? (
       <Spinner />
-    ) : (
-      <Fragment>
+      ) : (
+        <Fragment>
         <Link to='/' className='btn btn-light'>
           Back to Search
         </Link>
         Hireable: {"  "}
         {hireable ? (
           <i className='fas fa-check text-success' />
-        ) : (
-          <i className='fas fa-times-circle text-danger' />
-        )}
+          ) : (
+            <i className='fas fa-times-circle text-danger' />
+            )}
         <div className='card grid-2'>
           <div className='all-center'>
             <img
@@ -53,7 +46,7 @@ class User extends Component {
               alt='avatar'
               className='round-img'
               style={{ width: "150px" }}
-            />
+              />
             <h1>{name}</h1>
             <p>
               Location: <strong>{location}</strong>
@@ -100,9 +93,16 @@ class User extends Component {
           <div className='badge badge-danger'>Public Repos: {public_repos}</div>
           <div className='badge badge-dark'>Public Gists: {public_gists}</div>
         </div>
-        <Repos repos={this.props.repos} />
+        <Repos repos={repos} />
       </Fragment>
     )
   }
+
+User.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  user: PropTypes.object.isRequired,
+  getRepos: PropTypes.func.isRequired,
+  repos: PropTypes.array.isRequired
 }
 export default User
