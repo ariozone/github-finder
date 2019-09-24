@@ -9,9 +9,7 @@ import axios from "axios"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import "./App.css"
 const usersEndPoint = "https://api.github.com/users"
-const credentials = `client_id=${
-  process.env.REACT_APP_GITHUB_CLIENT_ID
-}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+const credentials = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
 const searchEndPoint = "https://api.github.com/search/users?q="
 const reposApi = "/repos?per_page=5&sort=created:asc"
 
@@ -21,12 +19,6 @@ const App = () => {
   const [alert, setAlert] = useState(null)
   const [user, setUser] = useState({})
   const [repos, setRepos] = useState([])
-
-  // async componentDidMount() {
-  //   setState({ loading: true })
-  //   const { data: users } = await axios.get(usersEndPoint + "?" + credentials)
-  //   setState({ users, loading: false })
-  // }
 
   const onSearch = async searchQuery => {
     setLoading(true)
@@ -44,7 +36,6 @@ const App = () => {
 
   const showAlert = (message, type) => {
     setAlert({ message, type })
-    //setState({ alert: { message, type } })
     setTimeout(() => setAlert(null), 3000)
   }
 
@@ -53,7 +44,6 @@ const App = () => {
     const { data: user } = await axios.get(
       usersEndPoint + "/" + username + "?" + credentials
     )
-
     setUser(user)
     setLoading(false)
   }
@@ -63,7 +53,6 @@ const App = () => {
     const { data: repos } = await axios.get(
       usersEndPoint + "/" + username + reposApi + "?" + credentials
     )
-
     setRepos(repos)
     setLoading(false)
   }
