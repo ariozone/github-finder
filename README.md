@@ -1,3 +1,32 @@
+# Github Finder
+
+ An application for users who want to find github profiles.
+
+## Technologies
+- React.js
+- React Hooks
+- Axios
+- React Router
+- HTML5
+- CSS3
+- JavaScript
+
+
+## Usage
+Clone and install dependencies.
+```
+git clone https://github.com/ariozone/github-finder.git
+cd github-finder/
+npm install
+```
+Run the app
+```
+npm start
+```
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
