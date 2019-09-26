@@ -14,6 +14,7 @@ import {
 const credentials = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
 const searchEndPoint = "https://api.github.com/search/users?q="
 const usersEndPoint = "https://api.github.com/users"
+const reposApi = "/repos?per_page=5&sort=created:asc"
 
 const GithubState = props => {
   const initState = {
@@ -44,6 +45,13 @@ const GithubState = props => {
   }
 
   // get repos
+  const getRepos = async username => {
+    setLoading()
+    const { data: repos } = await axios.get(
+      usersEndPoint + "/" + username + reposApi + "?" + credentials
+    )
+    dispatch({ type: GET_REPOS, payload: repos })
+  }
 
   // clear users
   const handleClear = () => dispatch({ type: CLEAR_USERS })
@@ -59,7 +67,8 @@ const GithubState = props => {
         loading: state.loading,
         onSearch,
         handleClear,
-        getUser
+        getUser,
+        getRepos
       }}
     >
       {props.children}
