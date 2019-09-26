@@ -17,29 +17,14 @@ const reposApi = "/repos?per_page=5&sort=created:asc"
 const credentials = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
 
 const App = () => {
-  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(null)
-  const [user, setUser] = useState({})
-  const [repos, setRepos] = useState([])
 
-  const handleClear = () => {
-    setUsers([])
-    setLoading(false)
-  }
+  const [repos, setRepos] = useState([])
 
   const showAlert = (message, type) => {
     setAlert({ message, type })
     setTimeout(() => setAlert(null), 3000)
-  }
-
-  const getUser = async username => {
-    setLoading(true)
-    const { data: user } = await axios.get(
-      usersEndPoint + "/" + username + "?" + credentials
-    )
-    setUser(user)
-    setLoading(false)
   }
 
   const getRepos = async username => {
@@ -64,12 +49,8 @@ const App = () => {
                 path='/'
                 render={props => (
                   <Fragment>
-                    <Search
-                      onClear={handleClear}
-                      showClear={users.length > 0 ? true : false}
-                      setAlert={showAlert}
-                    />
-                    <Users users={users} loading={loading} />
+                    <Search setAlert={showAlert} />
+                    <Users />
                   </Fragment>
                 )}
               />
@@ -78,14 +59,7 @@ const App = () => {
                 exact
                 path='/user/:login'
                 render={props => (
-                  <User
-                    getUser={getUser}
-                    getRepos={getRepos}
-                    user={user}
-                    repos={repos}
-                    loading={loading}
-                    {...props}
-                  />
+                  <User getRepos={getRepos} repos={repos} {...props} />
                 )}
               />
             </Switch>

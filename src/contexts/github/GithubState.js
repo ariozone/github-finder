@@ -13,6 +13,7 @@ import {
 
 const credentials = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
 const searchEndPoint = "https://api.github.com/search/users?q="
+const usersEndPoint = "https://api.github.com/users"
 
 const GithubState = props => {
   const initState = {
@@ -30,14 +31,22 @@ const GithubState = props => {
     const { data } = await axios.get(
       searchEndPoint + searchQuery + "&" + credentials
     )
-    dispatch({ type: SEARCH_USERS, payload: data })
+    dispatch({ type: SEARCH_USERS, payload: data.items })
   }
 
   // get user
+  const getUser = async username => {
+    setLoading()
+    const { data: user } = await axios.get(
+      usersEndPoint + "/" + username + "?" + credentials
+    )
+    dispatch({ type: GET_USER, payload: user })
+  }
 
   // get repos
 
   // clear users
+  const handleClear = () => dispatch({ type: CLEAR_USERS })
 
   // set spinner
   const setLoading = () => dispatch({ type: SET_SPINNER })
@@ -48,7 +57,9 @@ const GithubState = props => {
         user: state.user,
         repos: state.repos,
         loading: state.loading,
-        onSearch
+        onSearch,
+        handleClear,
+        getUser
       }}
     >
       {props.children}
