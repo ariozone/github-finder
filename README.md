@@ -5,6 +5,7 @@
 ## Technologies
 - React.js
 - React Hooks
+- React Context
 - Axios
 - React Router
 - HTML5
