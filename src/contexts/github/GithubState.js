@@ -11,7 +11,16 @@ import {
   GET_REPOS
 } from "../types"
 
-const credentials = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+const githubClientId =
+  process.env.NODE_ENV !== "production"
+    ? process.env.REACT_APP_GITHUB_CLIENT_ID
+    : process.env.GITHUB_CLIENT_ID
+const githubClientSecret =
+  process.env.NODE_ENV !== "production"
+    ? process.env.REACT_APP_GITHUB_CLIENT_SECRET
+    : process.env.GITHUB_CLIENT_SECRET
+
+const credentials = `client_id=${githubClientId}&client_secret=${githubClientSecret}`
 const searchEndPoint = "https://api.github.com/search/users?q="
 const usersEndPoint = "https://api.github.com/users"
 const reposApi = "/repos?per_page=5&sort=created:asc"
