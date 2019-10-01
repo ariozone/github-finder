@@ -1,6 +1,8 @@
 # Github Finder
 
  An application for users who want to find github profiles.
+ 
+ ### [Live Demo](https://github-finder-ariozone-app.netlify.com/)
 
 ## Technologies
 - React.js
